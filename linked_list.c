@@ -29,6 +29,26 @@ static inline node_t *get_list_tail(node_t **left) {
     return *left;
 }
 
+void insert_sorted(node_t *entry, node_t **list)
+{
+    while (*list && (*list)->value < entry->value)
+        list = &(*list)->next;
+    entry->next = *list;
+    *list = entry;
+}
+
+void insertsort(node_t **list) 
+{
+    node_t *sorted = NULL;
+    node_t *cur = *list;
+    while (cur) {
+        node_t *node = cur;
+        cur = cur->next;
+        insert_sorted(node, &sorted);
+    }
+    *list = sorted;
+}
+
 void introsort(node_t **list)
 {
     if (!*list)
