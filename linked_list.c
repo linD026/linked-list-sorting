@@ -29,6 +29,46 @@ static inline node_t *get_list_tail(node_t **left) {
     return *left;
 }
 
+void itrosort(node_t **list)
+{
+    if (!*list)
+        return;
+
+    node_t *pivot = *list;
+    int value = pivot->value;
+    int l = 0, r = 0;
+    node_t *p = pivot->next;
+    pivot->next = NULL;
+
+    node_t *left = NULL, *right = NULL;
+    while (p) {
+        node_t *n = p;
+        p = p->next;
+        if (n->value > value) {
+            list_add_node_t(&right, n);
+            r++;
+        }
+        else {
+            list_add_node_t(&left, n);
+            l++;
+        }
+    }
+
+    if (l < 20)
+        insertsort(&left);
+    else 
+        quicksort_recursion(&left);
+    if (r < 20)
+        insertsort(&right);
+    else
+        quicksort_recursion(&right);
+
+    node_t *result = NULL;
+    list_concat(&result, left);
+    list_concat(&result, pivot); 
+    list_concat(&result, right);;
+    *list = result;
+}
 
 void quicksort_recursion(node_t **list)
 {
