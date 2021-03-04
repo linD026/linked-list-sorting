@@ -29,7 +29,7 @@ static inline node_t *get_list_tail(node_t **left) {
     return *left;
 }
 
-void (node_t **list)
+void introsort (node_t **list)
 {
     if (!*list)
         return;
