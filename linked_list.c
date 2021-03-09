@@ -77,11 +77,11 @@ void introsort(node_t **list)
     if (l < 20)
         insertsort(&left);
     else 
-        quicksort_recursion(&left);
+        introsort(&left);
     if (r < 20)
         insertsort(&right);
     else
-        quicksort_recursion(&right);
+        introsort(&right);
 
     node_t *result = NULL;
     list_concat(&result, left);
