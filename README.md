@@ -1,4 +1,4 @@
-# quicksort-ll
+# linked-list-sorting
 
 * result
 
