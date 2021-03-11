@@ -14,7 +14,8 @@
 
 #include "list.h"
 #include "type.h"
-#include "c_map.h"
+#include "c_map_bit.h"
+//#include "c_map.h"
 
 void insert_sorted(node_t *entry, node_t **list)
 {
@@ -38,7 +39,7 @@ void insertsort(node_t **list)
 
 void treesort(node_t **list) {
     node_t **record = list;
-    c_map_t map = c_map_new(sizeof(int), sizeof(NULL), c_map_cmp_int);
+    c_map_t map = c_map_new(sizeof(long), sizeof(NULL), c_map_cmp_int);
     while (*list) {
         c_map_insert(map, *list, NULL);
         list = &(*list)->next;
@@ -214,7 +215,7 @@ static bool list_is_ordered(node_t *list) {
 static void list_display(node_t *list) {
     printf("%s IN ORDER : ", list_is_ordered(list) ? "   " : "NOT");
     while (list) {
-        printf("%d ", list->value);
+        printf("%ld ", list->value);
         list = list->next;
     }
     printf("\n");
@@ -257,13 +258,14 @@ int main(int argc, char **argv) {
     struct timespec tt1, tt2;
     time_t time = 0;
 
-    int max_level = 32, insert = 21;
-    node_t *list1 = NULL, *list2 = NULL, *list3 = NULL, *list4 = NULL;
+    //int max_level = 32, insert = 21;
+    //node_t *list1 = NULL, *list2 = NULL, *list3 = NULL, *list4 = NULL;
 
     while (times--) {
         
         size_t count = 100000;
-        node_t *list1 = NULL, *list2 = NULL, *list3 = NULL;
+        node_t *list1 = NULL, *list3 = NULL; 
+        node_t *list2 = NULL; //tree_sort
 
         int *test_arr = malloc(sizeof(int) * count);
 
@@ -273,24 +275,24 @@ int main(int argc, char **argv) {
         shuffle(test_arr, count);
 
         while (count--) {
-            list1 = list_make_node_t(list1, test_arr[count]);
+            //list1 = list_make_node_t(list1, test_arr[count]);
             list2 = list_make_node_t(list2, test_arr[count]);
-            list3 = list_make_node_t(list3, test_arr[count]);
-            list4 = list_make_node_t(list4, test_arr[count]);
+            //list3 = list_make_node_t(list3, test_arr[count]);
+            //list4 = list_make_node_t(list4, test_arr[count]);
         }
-
+        /*
         clock_gettime(CLOCK_MONOTONIC, &tt1);
         introsort(&list1, max_level, insert);
         clock_gettime(CLOCK_MONOTONIC, &tt2);
         time = diff_in_ns(tt1, tt2);
         printf("%ld ", time);
-        
+        */
         clock_gettime(CLOCK_MONOTONIC, &tt1);
         treesort(&list2);
         clock_gettime(CLOCK_MONOTONIC, &tt2);
         time = diff_in_ns(tt1, tt2);
-        printf("%ld ", time);
-        
+        printf("%ld\n", time);
+        /*
         clock_gettime(CLOCK_MONOTONIC, &tt1);
         quicksort_recursion(&list3);
         clock_gettime(CLOCK_MONOTONIC, &tt2);
@@ -302,16 +304,16 @@ int main(int argc, char **argv) {
         clock_gettime(CLOCK_MONOTONIC, &tt2);
         time = diff_in_ns(tt1, tt2);
         printf("%ld\n", time);
-
-        assert(list_is_ordered(list1));
+        */
+        //assert(list_is_ordered(list1));
         assert(list_is_ordered(list2));
-        assert(list_is_ordered(list3));
-        assert(list_is_ordered(list4));
+        //assert(list_is_ordered(list3));
+        //assert(list_is_ordered(list4));
         
-        list_free(&list1);
+        //list_free(&list1);
         list_free(&list2);
-        list_free(&list3);
-        list_free(&list4);
+        //list_free(&list3);
+        //list_free(&list4);
         
         free(test_arr);
     }
